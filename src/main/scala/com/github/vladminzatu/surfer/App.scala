@@ -6,7 +6,7 @@ import org.apache.spark.streaming._
 
 object App {
 
-  val checkpointDir = "/Users/vlad/spark-checkpoint"
+  val checkpointDir = "~/spark-checkpoint"
 
   val mappingFunc = (key: String, timestamp: Option[Long], state: State[Score]) => {
     if(timestamp.isDefined){
@@ -20,10 +20,6 @@ object App {
   }
 
   def main(args: Array[String]) {
-    import org.apache.log4j.{Level, Logger}
-
-    Logger.getLogger("org").setLevel(Level.WARN)
-
     val conf = new SparkConf().setMaster("local[*]").setAppName("HotItems")
     val ssc = new StreamingContext(conf, Seconds(1))
 
