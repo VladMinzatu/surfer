@@ -11,6 +11,8 @@ class Score(val value: Double) extends Serializable {
     Score(u + log1p(exp(v - u)))
   }
 
+  def <(other: Score): Boolean = false
+
   override def toString(): String = value.toString;
 }
 

@@ -3,7 +3,7 @@ package com.github.vladminzatu.surfer.persist
 import com.github.vladminzatu.surfer.Score
 import org.apache.spark.rdd.RDD
 
-abstract class StatePersister extends Serializable {
+class Updater {
 
-  def persist(scores: RDD[(String, Score)]): Unit
+  def update(scores: RDD[(String, Score)]): Unit = {}
 }
