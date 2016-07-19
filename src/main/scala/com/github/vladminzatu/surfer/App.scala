@@ -1,6 +1,6 @@
 package com.github.vladminzatu.surfer
 
-import com.github.vladminzatu.surfer.persist.{MockPersister, SnapshotPersistenceMode, MockStatePersister, MockLoader}
+import com.github.vladminzatu.surfer.persist.{MockPersister, SnapshotPersistenceMode}
 import org.apache.spark._
 import org.apache.spark.streaming._
 
@@ -23,7 +23,6 @@ object App {
     val conf = new SparkConf().setMaster("local[*]").setAppName("HotItems")
     val ssc = new StreamingContext(conf, Seconds(1))
 
-    val loader = new MockLoader(ssc.sparkContext)
     val persistenceMode = new SnapshotPersistenceMode(new MockPersister)
 
     ssc.checkpoint(checkpointDir)
@@ -31,7 +30,7 @@ object App {
     val events = ssc.socketTextStream("localhost", 9999)
     val scores = events.map(x => (x, System.currentTimeMillis))
 
-    val initialRdd = loader.load()
+    val initialRdd = ssc.sparkContext.parallelize(Array[(String, Score)]())
 
     val stateDstream = scores.mapWithState(
       StateSpec.function(mappingFunc).initialState(initialRdd).timeout(Minutes(60 * 24 * 10)))
