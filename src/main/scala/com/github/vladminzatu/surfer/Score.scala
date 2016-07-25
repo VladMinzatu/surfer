@@ -11,8 +11,6 @@ class Score(val value: Double) extends Serializable {
     Score(u + log1p(exp(v - u)))
   }
 
-  def <(other: Score): Boolean = false
-
   override def toString(): String = value.toString;
 }
 
@@ -25,5 +23,5 @@ object Score{
    */
   def apply(time: Long) = new Score(rate * time)
 
-  def rate = 1.0 / (24 * 3.6e6) // one day
+  def rate = 1.0 / 60000 /*(24 * 3.6e6)*/ // one day
 }
