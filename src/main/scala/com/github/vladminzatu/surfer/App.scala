@@ -1,6 +1,6 @@
 package com.github.vladminzatu.surfer
 
-import com.github.vladminzatu.surfer.persist.{UpdatePersistenceMode, MockPersister, SnapshotPersistenceMode}
+import com.github.vladminzatu.surfer.persist.{RestPersister, UpdatePersistenceMode, MockPersister, SnapshotPersistenceMode}
 import org.apache.spark._
 import org.apache.spark.streaming._
 
@@ -20,10 +20,10 @@ object App {
   }
 
   def main(args: Array[String]) {
-    val conf = new SparkConf().setMaster("local[*]").setAppName("Surfer")
+    val conf = new SparkConf().setMaster("local[4]").setAppName("Surfer")
     val ssc = new StreamingContext(conf, Seconds(1))
 
-    val persistenceMode = new SnapshotPersistenceMode(new MockPersister)
+    val persistenceMode = new SnapshotPersistenceMode(new RestPersister)
 
     ssc.checkpoint(checkpointDir)
 
