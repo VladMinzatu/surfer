@@ -1,8 +1,8 @@
-from bottle import get, post, run, static_file, request
+from bottle import route, get, post, run, static_file, request
 import json
 import socket
 
-scores = [{'item':'a','score':0.69}, {'item':'b','score':0.81}, {'item':'c', 'score':0.73}]
+scores = []
 
 HOST, PORT = "localhost", 9999
 socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -16,6 +16,10 @@ print('Got a connection. Ready to receive requests')
 @get('/')
 def index():
     return static_file('index.html', root='resources')
+
+@route('/static/app/<filename>')
+def get_static(filename):
+    return static_file(filename, root='resources/app')
 
 @get('/items')
 def get_scores():

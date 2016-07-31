@@ -16,7 +16,6 @@ class RestPersister extends Persister {
   override def persist(scores: RDD[(String, Score)]): Unit = {
     implicit val formats = org.json4s.DefaultFormats
     val payload = write(scores.collect().sortWith((a,b) => a._2.value > b._2.value).map(x => Item(x._1, x._2.value)))
-    println(payload)
     val client = HttpClientBuilder.create().build();
     client.execute(postRequest(payload))
   }

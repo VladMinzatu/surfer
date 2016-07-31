@@ -1,6 +1,53 @@
-<head>
-</head>
+<!DOCTYPE html>
+<html>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
-<body>
-    <h3>Start here...</h3>
-</body>
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+
+    <body>
+        <script src="static/app/app.js"></script>
+
+        <h2>Surfer Test</h2>
+        <div ng-app="surfer-test-app">
+        <div ng-cloak ng-controller="itemsController" class="w3-card-2 w3-margin" style="min-width:600px;float:left;">
+            <header class="w3-container w3-light-grey w3-padding-16">
+                <h3>Items</h3>
+            </header>
+            <ul class="w3-ul">
+                <li ng-repeat="x in items" class="w3-padding-16">
+                    {{x}}
+                    <button ng-click="removeItem($index)" class="w3-btn w3-right w3-red" style="cursor:pointer;">Delete</button>
+                    <button ng-click="voteItem($index)" class="w3-btn w3-right w3-light-grey">Vote</button>
+                </li>
+            </ul>
+            <div class="w3-container w3-light-grey w3-padding-16">
+                <div class="w3-row w3-margin-top">
+                    <div class="w3-col s10">
+                        <input placeholder="Add items" ng-model="newItem" class="w3-input w3-border w3-padding">
+                    </div>
+                    <div class="w3-col s2">
+                        <button ng-click="addItem()" class="w3-btn w3-padding w3-green">Add</button>
+                    </div>
+                </div>
+                <p class="w3-padding-left w3-text-red">{{errortext}}</p>
+            </div>
+        </div>
+
+        <div ng-controller="scoresController" style="float:left;">
+            <h3>Scores</h3>
+            <table class="w3-table-all" style="table-layout:fixed;width:800px;">
+                <thead>
+                    <tr class="w3-red">
+                        <th>Item</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="x in scores">
+                    <td>{{x.item}}</td>
+                    <td>{{x.score}}</td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </body>
+</html>
