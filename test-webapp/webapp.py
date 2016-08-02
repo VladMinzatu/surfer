@@ -2,7 +2,7 @@ from bottle import route, get, post, run, static_file, request
 import json
 import socket
 
-scores = []
+scores = {}
 
 HOST, PORT = "localhost", 9999
 socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,13 +23,15 @@ def get_static(filename):
 
 @get('/items')
 def get_scores():
-    return json.dumps(sorted(scores, key=lambda x: -x['score']))
+    items = [{'item':x, 'score':scores[x]} for x in scores]
+    return json.dumps(sorted(items, key=lambda x: -x['score']))
 
 @post('/items')
 def update_snapshot():
     global scores
     new_scores = json.loads(str(request.body.getvalue().decode("utf-8")))
-    scores = [{"item":x['item'], "score":x['score']} for x in new_scores]
+    for x in new_scores:
+        scores[x['item']] = x['score']
 
 @post('/items/<name>')
 def interact(name):
